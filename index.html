@@ -3,319 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Second Helpings: food rescue for schools</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f3f6f4;--surf:#fff;--ink:#12302b;--mute:#5b706b;--line:#d5dfdb;--brand:#0f6b5c;--brand-ink:#fff;--sun:#f2b632;--sun-ink:#3a2a00;--bad:#b3341f;
---hd:'Bricolage Grotesque',system-ui,sans-serif;--bd:'Instrument Sans',system-ui,sans-serif;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1b19;--surf:#142826;--ink:#e6f1ee;--mute:#9bb3ad;--line:#27403c;--brand:#3fb9a3;--brand-ink:#05211c;--sun:#f2b632;--bad:#ff8a73;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0d1b19;--surf:#142826;--ink:#e6f1ee;--mute:#9bb3ad;--line:#27403c;--brand:#3fb9a3;--brand-ink:#05211c;--sun:#f2b632;--bad:#ff8a73;color-scheme:dark}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--bd)}
-h1,h2,h3{font-family:var(--hd);line-height:1.1;margin:0}
-header{padding:2rem 1.25rem 1rem;max-width:1080px;margin:0 auto}
-header h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;max-width:16ch}
-header p{max-width:60ch;color:var(--mute);margin:.75rem 0 0}
-.flow{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 0;padding:0;list-style:none;font-size:.9rem}
-.flow li{background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem}
-.flow b{color:var(--brand);font-weight:600}
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-nav div{max-width:1080px;margin:0 auto;display:flex;gap:.25rem;overflow-x:auto;padding:.5rem 1rem}
-nav button{flex:none;font:600 .95rem var(--bd);color:var(--mute);background:none;border:0;border-radius:8px;padding:.55rem .9rem;cursor:pointer;display:flex;gap:.5rem;align-items:center}
-nav button[aria-selected="true"]{background:var(--brand);color:var(--brand-ink)}
-.badge{background:var(--sun);color:var(--sun-ink);border-radius:999px;font-size:.75rem;padding:0 .45rem;min-width:1.3rem;text-align:center}
-main{max-width:1080px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
-section[hidden]{display:none}
-.lead{color:var(--mute);max-width:62ch;margin:.5rem 0 1.5rem}
-h2{font-size:1.9rem;font-weight:800}
-h3{font-size:1.15rem;margin-bottom:.75rem}
-.grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
-.panel{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:1.1rem}
-label{display:block;font-size:.85rem;font-weight:600;margin:.7rem 0 .25rem}
-input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.55rem .7rem}
-input[type=range]{padding:0;accent-color:var(--brand)}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-.btn{font:600 .9rem var(--bd);background:var(--brand);color:var(--brand-ink);border:0;border-radius:8px;padding:.55rem .95rem;cursor:pointer;margin-top:.9rem}
-.btn.alt{background:transparent;color:var(--brand);border:1px solid var(--brand);margin-top:0}
-.btn.sm{padding:.35rem .7rem;margin-top:0}
-.item{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding:.7rem 0;border-top:1px solid var(--line)}
-.item:first-of-type{border-top:0}
-.item small,.muted{color:var(--mute)}
-.pill{font-size:.75rem;font-weight:600;border-radius:999px;padding:.1rem .6rem;background:var(--line);color:var(--ink);white-space:nowrap}
-.pill.go{background:var(--sun);color:var(--sun-ink)}
-.empty{color:var(--mute);padding:.5rem 0;font-style:italic}
-.note{border-left:4px solid var(--sun);padding:.6rem .9rem;background:var(--surf);border-radius:0 8px 8px 0;margin:0 0 1.25rem;font-size:.92rem}
-.radar{width:100%;max-width:360px;display:block;margin:0 auto .5rem}
-.err{color:var(--bad);font-size:.85rem;min-height:1.2em}
-#toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;z-index:9}
-#toast.on{opacity:1}
-.tools{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap}
-.menucard{border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surf);margin-top:.5rem}
-.mh{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--bg);padding:1rem 1.1rem;font:800 1.2rem var(--hd)}
-.mh span:last-child{font:600 .95rem var(--bd);opacity:.85}
-.mrow{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem;border-top:1px solid var(--line)}
-.mrow h4{font:800 1.15rem var(--hd);margin:0 0 .15rem}
-.mrow p{margin:0 0 .35rem;color:var(--mute);font-size:.92rem}
-.rbtn{font:600 1rem var(--bd);background:#1f6b4a;color:#fff;border:0;border-radius:10px;padding:.8rem 1.2rem;cursor:pointer;flex:none}
-.rbtn:disabled{opacity:.45;cursor:not-allowed}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+<title>Campus Table</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="wrap">
 <header>
-  <h1>Good food shouldn’t go to waste while a student goes hungry.</h1>
-  <p>Second Helpings connects businesses with leftover food to schools, so students who need a meal get one quietly and with dignity.</p>
-  <ol class="flow" aria-label="How it works">
-    <li><b>Business</b> reports leftovers</li><li><b>Collection</b> picks them up</li><li><b>Prep</b> builds the menu</li><li><b>School</b> confirms who needs meals</li><li><b>Delivery</b> brings discreet packs</li>
-  </ol>
+<h1>Campus Table</h1>
+<p class="lede">Our menu of good, free food, ready for any student to collect. No sign-up, no questions, no names.</p>
+<span class="id" id="idchip"></span>
 </header>
-<nav><div role="tablist" aria-label="Sections">
-  <button role="tab" id="t-biz" aria-selected="true" data-tab="biz">Business</button>
-  <button role="tab" id="t-prep" aria-selected="false" data-tab="prep">Prep <span class="badge" id="b-prep">0</span></button>
-  <button role="tab" id="t-cd" aria-selected="false" data-tab="cd">Collection &amp; delivery <span class="badge" id="b-cd">0</span></button>
-  <button role="tab" id="t-school" aria-selected="false" data-tab="school">School</button>
-</div></nav>
-
+<nav role="tablist" aria-label="Sections">
+<button role="tab" data-tab="browse" aria-selected="true">Our menu</button>
+<button role="tab" data-tab="orders" aria-selected="false">My pickups</button>
+<button role="tab" data-tab="biz" aria-selected="false">Business</button>
+<button role="tab" data-tab="prep" aria-selected="false">Prep<span class="cnt" id="b-prep">0</span></button>
+<button role="tab" data-tab="cd" aria-selected="false">Collection &amp; delivery<span class="cnt" id="b-cd">0</span></button>
+<button role="tab" data-tab="privacy" aria-selected="false">Your privacy</button>
+</nav>
 <main>
-<!-- BUSINESS -->
-<section id="biz" aria-labelledby="t-biz">
-  <h2>Business</h2>
-  <p class="lead">Find businesses near the collection hub and report food that would otherwise be thrown away. The collection team is alerted straight away.</p>
-  <div class="grid">
-    <div class="panel">
-      <h3>Nearby businesses</h3>
-      <label for="radius">Search radius: <span id="rv">5</span> km</label>
-      <input type="range" id="radius" min="1" max="10" value="5">
-      <svg class="radar" id="radar" viewBox="-110 -110 220 220" role="img" aria-label="Map of businesses around the hub"></svg>
-      <div id="bizList"></div>
-    </div>
-    <div class="panel">
-      <h3>Report leftover food</h3>
-      <form id="leftForm" novalidate>
-        <label for="lbiz">Business</label><select id="lbiz"></select>
-        <label for="lfood">Food</label><input id="lfood" placeholder="e.g. Vegetable pies, cooked rice">
-        <label for="lqty">Portions</label><input id="lqty" type="number" min="1" value="10">
-        <label for="lby">Ready for pickup by</label><input id="lby" type="time" value="18:00">
-        <p class="err" id="lerr" role="alert"></p>
-        <button class="btn" type="submit">Notify collection team</button>
-      </form>
-    </div>
-    <div class="panel">
-      <h3>Alerts sent</h3>
-      <div id="alerts"></div>
-    </div>
-  </div>
+<section id="browse"></section>
+<section id="orders" hidden></section>
+<section id="biz" hidden>
+<h2>Business</h2>
+<p class="teamnote">Team area. Where the food comes from stays here and never appears on the student menu.</p>
+<div class="grid">
+<div class="panel"><h3>Nearby businesses</h3>
+<label class="f" for="radius">Search radius: <span id="rv">5</span> km</label>
+<input type="range" id="radius" min="1" max="10" value="5">
+<svg class="radar" id="radar" viewBox="-110 -110 220 220" role="img" aria-label="Map of businesses around the hub"></svg>
+<div id="bizList"></div></div>
+<div class="panel"><h3>Report leftover food</h3>
+<form id="leftForm" novalidate>
+<label class="f" for="lbiz">Business</label><select id="lbiz"></select>
+<label class="f" for="lfood">Food</label><input id="lfood" placeholder="e.g. Vegetable pies, cooked rice">
+<label class="f" for="lqty">Portions</label><input id="lqty" type="number" min="1" value="10">
+<label class="f" for="lby">Ready for pickup by</label><input id="lby" type="time" value="18:00">
+<p class="err" id="lerr" role="alert"></p>
+<button class="btn form" type="submit">Notify collection team</button>
+</form></div>
+<div class="panel"><h3>Alerts sent</h3><div id="alerts"></div></div>
+</div>
 </section>
-
-<!-- PREP -->
-<section id="prep" aria-labelledby="t-prep" hidden>
-  <h2>Prep</h2>
-  <p class="lead">Check collected food, then add it to today’s menu with the portions that are safe to serve.</p>
-  <div class="grid">
-    <div class="panel"><h3>Collected, waiting for prep</h3>
-      <label for="pwin">Pickup window</label><input id="pwin" value="4:30–5:30pm">
-      <label for="ploc">Pickup point</label><select id="ploc"><option>Student centre foyer</option><option>Library entrance</option><option>Front office</option></select>
-      <label for="palg">Allergens</label><select id="palg"><option>No common allergens</option><option>Contains gluten</option><option>Contains dairy</option><option>Contains nuts</option><option>Contains eggs</option></select>
-      <div id="prepQ" style="margin-top:1rem"></div></div>
-    <div class="panel"><h3>Today’s menu</h3><label for="mcode">Your student code</label><input id="mcode" placeholder="e.g. S-0412" autocomplete="off"><p class="err" id="merr" role="alert"></p><div id="menu" class="menucard"></div>
-      <div class="tools"><button class="btn alt sm" id="copyMenu">Copy menu text</button></div></div>
-  </div>
+<section id="prep" hidden>
+<h2>Prep</h2>
+<p class="teamnote">Check collected food, then add it to the menu. Students see it under our own menu names.</p>
+<div class="grid">
+<div class="panel"><h3>Menu settings for the next item</h3>
+<label class="f" for="psec">Menu section</label><select id="psec"></select>
+<label class="f" for="pdiet">Dietary tag</label><select id="pdiet"><option value="">None</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option></select>
+<label class="f" for="palg">Allergens</label><select id="palg"><option value="">No common allergens</option><option>Contains gluten</option><option>Contains dairy</option><option>Contains nuts</option><option>Contains eggs</option></select></div>
+<div class="panel"><h3>Collected, waiting for prep</h3><div id="prepQ"></div></div>
+</div>
 </section>
-
-<!-- COLLECTION & DELIVERY -->
-<section id="cd" aria-labelledby="t-cd" hidden>
-  <h2>Collection &amp; delivery</h2>
-  <p class="lead">Collectors claim and pick up reported food. Drivers take packed meals to the school’s collection point.</p>
-  <div class="grid">
-    <div class="panel"><h3>Collection queue</h3><div id="collQ"></div></div>
-    <div class="panel">
-      <h3>Discreet delivery run</h3>
-      <p class="note">Packs are plain, unmarked bags labelled only with a student code. No names, no logos, no mention of a food programme.</p>
-      <label for="dmenu">Menu item to pack</label><select id="dmenu"></select>
-      <button class="btn" id="packBtn">Pack for students waiting</button>
-      <div id="runList" style="margin-top:1rem"></div>
-    </div>
-  </div>
+<section id="cd" hidden>
+<h2>Collection &amp; delivery</h2>
+<p class="teamnote">Collectors claim and pick up reported food. The handover desk packs and hands over reservations by code.</p>
+<div class="grid">
+<div class="panel"><h3>Collection queue</h3><div id="collQ"></div></div>
+<div class="panel"><h3>Handover desk</h3><p class="note">Plain, unmarked bags labelled only with a code. Nobody here sees who a student is.</p><div id="desk"></div></div>
+</div>
 </section>
-
-<!-- SCHOOL -->
-<section id="school" aria-labelledby="t-school" hidden>
-  <h2>School</h2>
-  <p class="lead">School staff add students who need meals. Only a code is stored here. The real name stays on the school’s own system.</p>
-  <p class="note">Use your school’s portal to look up the code. Delivery staff and food teams never see names.</p>
-  <div class="grid">
-    <div class="panel">
-      <h3>Add a student to the register</h3>
-      <form id="stuForm" novalidate>
-        <label for="sgrade">Grade or class</label><input id="sgrade" placeholder="e.g. Grade 5">
-        <label for="sdiet">Dietary needs (optional)</label><input id="sdiet" placeholder="e.g. no pork, nut allergy">
-        <label for="sref">Referred by</label>
-        <select id="sref"><option>Class teacher</option><option>School counsellor</option><option>Nurse</option><option>Principal</option></select>
-        <p class="err" id="serr" role="alert"></p>
-        <button class="btn" type="submit">Add to register</button>
-      </form>
-      <label for="portal" style="margin-top:1.25rem">School portal link (staff only)</label>
-      <input id="portal" type="url" placeholder="https://school.example/staff">
-      <div class="tools"><button class="btn alt sm" id="openPortal" type="button">Open school site</button></div>
-    </div>
-    <div class="panel"><h3>Confidential register</h3><div id="reg"></div></div>
-  </div>
+<section id="privacy" hidden>
+<h2>Your privacy</h2>
+<ul class="plain">
+<li>We never ask for your name, email, student number or reason. Your pickup code is the only thing our team ever sees.</li>
+<li>Reservations are limited to 2 of each item and 3 active pickups, so there is enough for everyone. We don’t check anything else.</li>
+<li>Everyone who prepares or hands over your food sees a code and a list of items. They never see who you are.</li>
+<li>Delivery is optional and only offered for some menus. You choose a drop point, and handover is contactless.</li>
+<li>Everything on this page is stored only in your browser. Clearing it removes every trace.</li>
+</ul>
+<button class="btn danger" id="wipe">Clear everything on this device</button>
 </section>
 </main>
-<div id="toast" role="status" aria-live="polite"></div>
-
-<script>
-(function(){
-  var KEY='second-helpings-v1';
-  var biz=[
-    {id:1,name:'Corner Bakery',kind:'Bakery',km:1.2,a:40},
-    {id:2,name:'Greenfield Grocer',kind:'Grocery',km:2.4,a:130},
-    {id:3,name:'Sunrise Café',kind:'Café',km:3.1,a:210},
-    {id:4,name:'Mama’s Kitchen',kind:'Restaurant',km:4.6,a:300},
-    {id:5,name:'Central Hotel Buffet',kind:'Hotel',km:6.8,a:80},
-    {id:6,name:'Farmers’ Co-op Store',kind:'Market',km:8.9,a:170}
-  ];
-  var S={listings:[],menu:[],students:[],packs:[],n:100,portal:''};
-  try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)}catch(e){}
-  if(!S.listings.length&&!S.students.length&&!S.menu.length){
-    S.listings=[{id:1,bid:1,food:'Bread rolls',qty:24,by:'17:30',st:'new'}];
-    S.menu=[{id:2,name:'Chicken wraps',left:12,src:'Mama’s Kitchen',win:'4:30–5:30pm',loc:'Student centre foyer',alg:'Contains gluten'},{id:3,name:'Bread rolls',left:20,src:'Corner Bakery',win:'5:00–6:00pm',loc:'Library entrance',alg:'Contains gluten'},{id:4,name:'Fresh fruit cups',left:8,src:'Greenfield Grocer',win:'3:30–5:00pm',loc:'Student centre foyer',alg:'No common allergens'}];
-    S.students=[{code:'S-0412',grade:'Grade 4',diet:'',ref:'Class teacher',st:'waiting'},{code:'S-0527',grade:'Grade 7',diet:'No pork',ref:'School counsellor',st:'waiting'}];
-  }
-  S.res=S.res||{};
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-  function $(i){return document.getElementById(i)}
-  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function bname(id){var b=biz.filter(function(x){return x.id==id})[0];return b?b.name:'Unknown'}
-  var tt;function toast(m){var t=$('toast');t.textContent=m;t.className='on';clearTimeout(tt);tt=setTimeout(function(){t.className=''},2600)}
-  function nid(){return ++S.n}
-
-  /* tabs */
-  var tabs=document.querySelectorAll('[data-tab]');
-  function show(id){tabs.forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===id)});
-    ['biz','prep','cd','school'].forEach(function(s){$(s).hidden=s!==id});}
-  tabs.forEach(function(b){b.onclick=function(){show(b.dataset.tab)}});
-
-  /* business */
-  function inRange(){return biz.filter(function(b){return b.km<=+$('radius').value}).sort(function(a,b){return a.km-b.km})}
-  function renderBiz(){
-    var r=+$('radius').value;$('rv').textContent=r;
-    var list=inRange();
-    $('bizList').innerHTML=list.length?list.map(function(b){return '<div class="item"><div><strong>'+esc(b.name)+'</strong><br><small>'+b.kind+'</small></div><span class="pill">'+b.km.toFixed(1)+' km</span></div>'}).join(''):'<p class="empty">No businesses in this radius. Widen the search.</p>';
-    var sel=$('lbiz'),cur=sel.value;
-    sel.innerHTML=list.map(function(b){return '<option value="'+b.id+'">'+esc(b.name)+' ('+b.km.toFixed(1)+' km)</option>'}).join('');
-    if(cur)sel.value=cur;
-    var svg='<circle r="100" fill="none" stroke="var(--line)"/><circle r="'+(r*10)+'" fill="var(--brand)" fill-opacity=".1" stroke="var(--brand)" stroke-dasharray="3 3"/><circle r="6" fill="var(--sun)"/><text y="20" text-anchor="middle" font-size="9" fill="var(--mute)">Hub</text>';
-    biz.forEach(function(b){var on=b.km<=r,rad=b.km*10,x=rad*Math.cos(b.a*Math.PI/180),y=rad*Math.sin(b.a*Math.PI/180);
-      svg+='<circle cx="'+x+'" cy="'+y+'" r="5" fill="'+(on?'var(--brand)':'var(--mute)')+'" opacity="'+(on?1:.4)+'"/>'});
-    $('radar').innerHTML=svg;
-    $('alerts').innerHTML=S.listings.length?S.listings.slice().reverse().map(function(l){
-      return '<div class="item"><div><strong>'+esc(l.food)+'</strong> ×'+l.qty+'<br><small>'+esc(bname(l.bid))+', by '+l.by+'</small></div><span class="pill'+(l.st==='new'?' go':'')+'">'+({new:'Alert sent',claimed:'Claimed',collected:'Collected',prepped:'On menu'})[l.st]+'</span></div>'}).join(''):'<p class="empty">No leftovers reported yet. Use the form to send the first alert.</p>';
-  }
-  $('radius').oninput=renderBiz;
-  $('leftForm').onsubmit=function(e){e.preventDefault();
-    var f=$('lfood').value.trim(),q=+$('lqty').value;
-    if(!$('lbiz').value){$('lerr').textContent='Choose a business within the radius.';return}
-    if(!f||q<1){$('lerr').textContent='Add the food and at least 1 portion.';return}
-    $('lerr').textContent='';
-    S.listings.push({id:nid(),bid:+$('lbiz').value,food:f,qty:q,by:$('lby').value||'18:00',st:'new'});
-    $('lfood').value='';save();renderAll();toast('Alert sent to the collection team.');
-  };
-
-  /* collection */
-  function setSt(id,st){S.listings.forEach(function(l){if(l.id===id)l.st=st});save();renderAll()}
-  function renderColl(){
-    var q=S.listings.filter(function(l){return l.st==='new'||l.st==='claimed'});
-    $('collQ').innerHTML=q.length?q.map(function(l){
-      var btn=l.st==='new'?'<button class="btn sm" data-claim="'+l.id+'">Claim</button>':'<button class="btn sm" data-got="'+l.id+'">Mark collected</button>';
-      return '<div class="item"><div><strong>'+esc(l.food)+'</strong> ×'+l.qty+'<br><small>'+esc(bname(l.bid))+', by '+l.by+'</small></div>'+btn+'</div>'}).join(''):'<p class="empty">Nothing to collect. New alerts appear here.</p>';
-    document.querySelectorAll('[data-claim]').forEach(function(b){b.onclick=function(){setSt(+b.dataset.claim,'claimed');toast('Claimed. Head to the pickup.')}});
-    document.querySelectorAll('[data-got]').forEach(function(b){b.onclick=function(){setSt(+b.dataset.got,'collected');toast('Collected. Sent to prep.')}});
-  }
-
-  /* prep */
-  function renderPrep(){
-    var q=S.listings.filter(function(l){return l.st==='collected'});
-    $('prepQ').innerHTML=q.length?q.map(function(l){
-      return '<div class="item"><div><strong>'+esc(l.food)+'</strong> ×'+l.qty+'<br><small>From '+esc(bname(l.bid))+'</small></div><button class="btn sm" data-prep="'+l.id+'">Add to menu</button></div>'}).join(''):'<p class="empty">No collected food yet.</p>';
-    document.querySelectorAll('[data-prep]').forEach(function(b){b.onclick=function(){
-      var l=S.listings.filter(function(x){return x.id===+b.dataset.prep})[0];
-      S.menu.push({id:nid(),name:l.food,left:l.qty,src:bname(l.bid),win:$('pwin').value.trim(),loc:$('ploc').value,alg:$('palg').value});l.st='prepped';save();renderAll();toast('Added to the menu.')}});
-    renderMenu();
-  }
-  $('copyMenu').onclick=function(){
-    var t='Today’s menu\n'+S.menu.map(function(m){return '- '+m.name+' ('+m.left+' portions)'}).join('\n');
-    try{navigator.clipboard.writeText(t).then(function(){toast('Menu copied.')},function(){toast('Copy not allowed here.')})}catch(e){toast('Copy not allowed here.')}
-  };
-
-  /* menu + reservations */
-  function stOf(code){return S.students.filter(function(s){return s.code.toUpperCase()===code})[0]}
-  function renderMenu(){
-    var code=$('mcode').value.trim().toUpperCase(),st=stOf(code);
-    var done=!!(st&&(S.res[code]||st.st==='served'));
-    var tot=S.menu.reduce(function(a,m){return a+m.left},0);
-    $('menu').innerHTML=S.menu.length?'<div class="mh"><span>Available today</span><span>'+tot+' portions</span></div>'+S.menu.map(function(m){
-      var lab=m.left<1?'Sold out':(done&&S.res[code]===m.id?'Reserved':'Reserve');
-      var meta=[m.win,m.loc].filter(Boolean).map(esc).join(' · ');
-      return '<div class="mrow"><div><h4>'+esc(m.name)+'</h4>'+(meta?'<p>'+meta+'</p>':'')+(m.alg?'<p>'+esc(m.alg)+'</p>':'')+'<span class="pill'+(m.left>0?' go':'')+'">'+m.left+' left</span></div><button class="rbtn" data-res="'+m.id+'"'+((m.left<1||done)?' disabled':'')+'>'+lab+'</button></div>'}).join(''):'<p class="empty" style="padding:1rem">The menu is empty until prepped food is added.</p>';
-    document.querySelectorAll('[data-res]').forEach(function(b){b.onclick=function(){reserve(+b.dataset.res)}});
-  }
-  function reserve(id){
-    var code=$('mcode').value.trim().toUpperCase(),err=$('merr'),st=stOf(code);
-    var m=S.menu.filter(function(x){return x.id===id})[0];
-    if(!code){err.textContent='Enter your student code first.';return}
-    if(!st){err.textContent='That code isn’t on the register. Ask a member of staff.';return}
-    if(S.res[code]||st.st==='served'){err.textContent='You have already reserved a portion today.';return}
-    if(!m||m.left<1){err.textContent='That item is sold out.';return}
-    m.left--;S.res[code]=id;st.st='served';
-    S.packs.push({id:nid(),code:st.code,grade:st.grade,st:'packed'});
-    err.textContent='';save();renderAll();toast('Reserved. Your bag will be waiting at the pickup point.');
-  }
-  $('mcode').oninput=function(){$('merr').textContent='';renderMenu()};
-
-  /* school */
-  $('stuForm').onsubmit=function(e){e.preventDefault();
-    var g=$('sgrade').value.trim();
-    if(!g){$('serr').textContent='Add a grade or class so packs reach the right pickup group.';return}
-    $('serr').textContent='';
-    S.students.push({code:'S-'+(1000+Math.floor(Math.random()*9000)),grade:g,diet:$('sdiet').value.trim(),ref:$('sref').value,st:'waiting'});
-    $('sgrade').value='';$('sdiet').value='';save();renderAll();toast('Student added by code only.')};
-  $('openPortal').onclick=function(){var u=$('portal').value.trim();
-    if(/^https?:\/\//i.test(u)){window.open(u,'_blank','noopener')}else{toast('Enter a link starting with https://')}};
-  function renderSchool(){
-    $('reg').innerHTML=S.students.length?S.students.map(function(s,i){
-      return '<div class="item"><div><strong>'+esc(s.code)+'</strong> · '+esc(s.grade)+'<br><small>'+(s.diet?esc(s.diet)+' · ':'')+'Referred by '+esc(s.ref.toLowerCase())+'</small></div><span class="pill'+(s.st==='waiting'?' go':'')+'">'+(s.st==='waiting'?'Waiting':'Served')+'</span></div>'}).join(''):'<p class="empty">No students yet. Staff add students using the form.</p>';
-  }
-
-  /* delivery */
-  function renderDeliv(){
-    var av=S.menu.filter(function(m){return m.left>0});
-    $('dmenu').innerHTML=av.map(function(m){return '<option value="'+m.id+'">'+esc(m.name)+' ('+m.left+' left)</option>'}).join('')||'<option value="">No menu items available</option>';
-    var run=S.packs.filter(function(p){return p.st==='packed'});
-    $('runList').innerHTML=run.length?run.map(function(p){
-      return '<div class="item"><div><strong>Bag '+esc(p.code)+'</strong><br><small>Plain bag · '+esc(p.grade)+' pickup</small></div><button class="btn sm" data-del="'+p.id+'">Mark delivered</button></div>'}).join(''):'<p class="empty">No packs on the run. Pack a menu item for waiting students.</p>';
-    document.querySelectorAll('[data-del]').forEach(function(b){b.onclick=function(){
-      S.packs.forEach(function(p){if(p.id===+b.dataset.del)p.st='delivered'});save();renderAll();toast('Delivered discreetly.')}});
-  }
-  $('packBtn').onclick=function(){
-    var m=S.menu.filter(function(x){return x.id===+$('dmenu').value})[0];
-    var w=S.students.filter(function(s){return s.st==='waiting'});
-    if(!m){toast('Add food to the menu first.');return}
-    if(!w.length){toast('No students are waiting.');return}
-    var n=Math.min(m.left,w.length);
-    for(var i=0;i<n;i++){w[i].st='served';S.packs.push({id:nid(),code:w[i].code,grade:w[i].grade,st:'packed'})}
-    m.left-=n;save();renderAll();toast(n+' discreet pack'+(n>1?'s':'')+' ready.')};
-
-  function renderAll(){
-    renderBiz();renderColl();renderPrep();renderSchool();renderDeliv();
-    $('b-prep').textContent=S.listings.filter(function(l){return l.st==='collected'}).length;
-    $('b-cd').textContent=S.listings.filter(function(l){return l.st==='new'||l.st==='claimed'}).length+S.packs.filter(function(p){return p.st==='packed'}).length;
-  }
-  renderAll();
-})();
-</script>
+<footer>This is a working prototype with a sample menu. A live version needs a server so counts update for everyone at once.</footer>
+</div>
+<dialog id="dlg"></dialog>
+<script src="script.js"></script>
 </body>
 </html>
