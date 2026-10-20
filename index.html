@@ -17,8 +17,6 @@
 <button role="tab" data-tab="browse" aria-selected="true">Our menu</button>
 <button role="tab" data-tab="orders" aria-selected="false">My pickups</button>
 <button role="tab" data-tab="biz" aria-selected="false">Business</button>
-<button role="tab" data-tab="prep" aria-selected="false">Prep<span class="cnt" id="b-prep">0</span></button>
-<button role="tab" data-tab="cd" aria-selected="false">Collection &amp; delivery<span class="cnt" id="b-cd">0</span></button>
 <button role="tab" data-tab="privacy" aria-selected="false">Your privacy</button>
 </nav>
 <main>
@@ -43,25 +41,6 @@
 <button class="btn form" type="submit">Notify collection team</button>
 </form></div>
 <div class="panel"><h3>Alerts sent</h3><div id="alerts"></div></div>
-</div>
-</section>
-<section id="prep" hidden>
-<h2>Prep</h2>
-<p class="teamnote">Check collected food, then add it to the menu. Students see it under our own menu names.</p>
-<div class="grid">
-<div class="panel"><h3>Menu settings for the next item</h3>
-<label class="f" for="psec">Menu section</label><select id="psec"></select>
-<label class="f" for="pdiet">Dietary tag</label><select id="pdiet"><option value="">None</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option></select>
-<label class="f" for="palg">Allergens</label><select id="palg"><option value="">No common allergens</option><option>Contains gluten</option><option>Contains dairy</option><option>Contains nuts</option><option>Contains eggs</option></select></div>
-<div class="panel"><h3>Collected, waiting for prep</h3><div id="prepQ"></div></div>
-</div>
-</section>
-<section id="cd" hidden>
-<h2>Collection &amp; delivery</h2>
-<p class="teamnote">Collectors claim and pick up reported food. The handover desk packs and hands over reservations by code.</p>
-<div class="grid">
-<div class="panel"><h3>Collection queue</h3><div id="collQ"></div></div>
-<div class="panel"><h3>Handover desk</h3><p class="note">Plain, unmarked bags labelled only with a code. Nobody here sees who a student is.</p><div id="desk"></div></div>
 </div>
 </section>
 <section id="privacy" hidden>

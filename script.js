@@ -10,7 +10,6 @@ var S={alias:null,stock:{},orders:[],listings:[],extra:[],n:100},sel={},filter="
 try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)}catch(e){}
 S.stock=S.stock||{};S.orders=S.orders||[];S.listings=S.listings||[];S.extra=S.extra||[];S.n=S.n||100;
 if(!S.listings.length&&!S.orders.length&&!S.extra.length)S.listings.push({id:1,bid:1,food:"Bread rolls",qty:24,by:"17:30",st:"new"});
-S.extra.forEach(function(x){var d=donor(x.did);if(d)d.items.push({id:x.id,name:esc(x.name),left:x.qty,diet:x.diet?[x.diet]:[],alg:x.alg})});
 DONORS.forEach(function(d){d.items.forEach(function(i){if(S.stock[i.id]==null)S.stock[i.id]=i.left})});
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function $(id){return document.getElementById(id)}
@@ -51,29 +50,18 @@ var BIZ=[{id:1,name:"Corner Bakery",kind:"Bakery",km:1.2,a:40},{id:2,name:"Green
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function bn(id){var b=BIZ.filter(function(x){return x.id==id})[0];return b?b.name:"Unknown"}
 function nid(){return ++S.n}
-function lst(id,st){S.listings.forEach(function(l){if(l.id===id)l.st=st});save();renderTeam()}
-function addMenu(id){var l=S.listings.filter(function(x){return x.id===id})[0];if(!l)return;
-var did=$("psec").value,x={did:did,id:"n"+nid(),name:l.food,qty:l.qty,diet:$("pdiet").value,alg:$("palg").value};
-S.extra.push(x);donor(did).items.push({id:x.id,name:esc(x.name),left:x.qty,diet:x.diet?[x.diet]:[],alg:x.alg});S.stock[x.id]=x.qty;l.st="prepped";save();renderTeam();renderBrowse();toast("Added to the menu under \u201c"+donor(did).name+"\u201d.")}
 function lrow(l,btn){return '<div class="row2"><div><strong>'+esc(l.food)+'</strong> \u00d7 '+l.qty+'<br><small>'+bn(l.bid)+', by '+l.by+'</small></div>'+btn+'</div>'}
 function renderTeam(){
 var r=+$("radius").value,list=BIZ.filter(function(b){return b.km<=r}).sort(function(a,b){return a.km-b.km});
 $("rv").textContent=r;
 $("bizList").innerHTML=list.length?list.map(function(b){return '<div class="row2"><div><strong>'+b.name+'</strong><br><small>'+b.kind+'</small></div><span class="pill">'+b.km.toFixed(1)+' km</span></div>'}).join(""):'<p class="empty">No businesses in this radius. Widen the search.</p>';
 var sb=$("lbiz"),cb=sb.value;sb.innerHTML=list.map(function(b){return '<option value="'+b.id+'">'+b.name+' ('+b.km.toFixed(1)+' km)</option>'}).join("");if(cb)sb.value=cb;
-var ps=$("psec"),pc=ps.value;ps.innerHTML=DONORS.map(function(d){return '<option value="'+d.id+'">'+d.name+'</option>'}).join("");if(pc)ps.value=pc;
 var g='<circle r="100" fill="none" stroke="var(--line)"/><circle r="'+(r*10)+'" fill="var(--act)" fill-opacity=".12" stroke="var(--act)" stroke-dasharray="3 3"/><circle r="6" fill="var(--num)"/><text y="20" text-anchor="middle" font-size="9" fill="var(--muted)">Hub</text>';
 BIZ.forEach(function(b){var on=b.km<=r,rad=b.km*10,x=rad*Math.cos(b.a*Math.PI/180),y=rad*Math.sin(b.a*Math.PI/180);g+='<circle cx="'+x+'" cy="'+y+'" r="5" fill="'+(on?"var(--act)":"var(--muted)")+'" opacity="'+(on?1:.4)+'"/>'});
 $("radar").innerHTML=g;
 var L=S.listings,names={"new":"Alert sent",claimed:"Claimed",collected:"Collected",prepped:"On menu"};
 $("alerts").innerHTML=L.length?L.slice().reverse().map(function(l){return lrow(l,'<span class="pill'+(l.st==="new"?" go":"")+'">'+names[l.st]+'</span>')}).join(""):'<p class="empty">No leftovers reported yet. Use the form to send the first alert.</p>';
-var cq=L.filter(function(l){return l.st==="new"||l.st==="claimed"});
-$("collQ").innerHTML=cq.length?cq.map(function(l){return lrow(l,l.st==="new"?'<button class="btn sm" data-claim="'+l.id+'">Claim</button>':'<button class="btn sm" data-got="'+l.id+'">Mark collected</button>')}).join(""):'<p class="empty">Nothing to collect. New alerts appear here.</p>';
-var pq=L.filter(function(l){return l.st==="collected"});
-$("prepQ").innerHTML=pq.length?pq.map(function(l){return lrow(l,'<button class="btn sm" data-prep="'+l.id+'">Add to menu</button>')}).join(""):'<p class="empty">No collected food yet.</p>';
-var dk=S.orders.filter(function(o){return o.status==="Reserved"||o.status==="Ready"});
-$("desk").innerHTML=dk.length?dk.slice().reverse().map(function(o){var d=donor(o.did);return '<div class="row2"><div><strong>'+o.code+'</strong><br><small>'+o.items.map(function(i){return i.qty+" \u00d7 "+i.name}).join(", ")+'<br>'+(o.mode==="delivery"?"Deliver to "+o.drop:"Collect at "+d.loc)+'</small></div>'+(o.status==="Reserved"?'<button class="btn sm" data-pack="'+o.code+'">Mark packed</button>':'<button class="btn sm" data-hand="'+o.code+'">Mark handed over</button>')+'</div>'}).join(""):'<p class="empty">No reservations to hand over. They appear here by code only.</p>';
-$("b-prep").textContent=pq.length;$("b-cd").textContent=cq.length+dk.length}
+}
 $("radius").oninput=renderTeam;
 $("leftForm").onsubmit=function(e){e.preventDefault();var f=$("lfood").value.trim(),q=+$("lqty").value;
 if(!$("lbiz").value){$("lerr").textContent="Choose a business within the radius.";return}
@@ -103,10 +91,6 @@ if(t==="orders")renderOrders();renderTeam();if(t==="browse")renderBrowse()}
 
 document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var d=b.dataset;
 if(d.tab)return show(d.tab);
-if(d.claim){lst(+d.claim,"claimed");return toast("Claimed. Head to the pickup.")}
-if(d.got){lst(+d.got,"collected");return toast("Collected. Sent to prep.")}
-if(d.prep)return addMenu(+d.prep);
-if(d.pack||d.hand){var cd=d.pack||d.hand;S.orders.forEach(function(o){if(o.code===cd)o.status=d.pack?"Ready":"Collected"});save();renderTeam();return toast(d.pack?"Packed in a plain bag.":"Handed over.")}
 if(d.f){filter=d.f;return renderBrowse()}
 if(d.p||d.m){var id=d.p||d.m,q=(sel[id]||0)+(d.p?1:-1);sel[id]=Math.max(0,Math.min(q,MAXQ,S.stock[id]));return renderBrowse()}
 if(d.r)return openReserve(d.r);
